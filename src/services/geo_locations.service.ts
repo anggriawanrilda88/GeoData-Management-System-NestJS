@@ -28,7 +28,6 @@ export class GeoLocationsService {
       queryBuilder.orWhere(`geo_locations.properties_name ILIKE :keyword`, { keyword: `%${keyword}%` });
     }
 
-    // get count for pagination
     const count = queryBuilder.getCount();
 
     if (offset) {
@@ -63,7 +62,6 @@ export class GeoLocationsService {
         await this.entityManager.save(geoData);
       }
     } catch (error) {
-      console.error('Error saving GeoJSON data to database:', error);
       throw new Error('Error saving GeoJSON data to database.');
     }
   }

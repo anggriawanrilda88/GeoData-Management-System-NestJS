@@ -1,3 +1,3 @@
 import { SetMetadata } from '@nestjs/common';
 
-export const Label = (...args: string[]) => SetMetadata('label', args);
+export const RolePathLabel = (...args: string[]) => SetMetadata('rolePathLabel', args);

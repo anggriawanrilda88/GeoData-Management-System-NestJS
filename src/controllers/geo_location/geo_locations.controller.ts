@@ -1,11 +1,9 @@
 import {
   Controller,
   Post,
-  Body,
   Get,
   UseGuards,
   Query,
-  UploadedFiles,
   UseInterceptors,
   UploadedFile,
   Res,
@@ -16,12 +14,12 @@ import { extname } from 'path';
 import * as fs from 'fs';
 import { FindGeoLocationDto } from './dto/find-geo-location.dto';
 import { GeoLocations } from 'src/models/geo_locations.entity';
-import { Label } from 'src/auth/auth.decorator';
-import { GeoLocationsService } from 'src/services/geo_locations.service';
+import { RolePathLabel } from '../../../src/auth/auth.decorator';
+import { GeoLocationsService } from '../../../src/services/geo_locations.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GeoJSONInterceptor } from './geojson.interceptor';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiConsumes, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../../../src/auth/auth.guard';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiConsumes, ApiForbiddenResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 const storage = diskStorage({
   destination: './storage/geo-locations',
@@ -76,6 +74,13 @@ export class GeoLocationsController {
               "error": "Forbidden",
               "statusCode": 403
             }
+          },
+          "Forbidden wrong format upload file geojson": {
+            value: {
+              "message": "Please upload file with geojson format",
+              "error": "Forbidden",
+              "statusCode": 403
+            }
           }
         }
       }
@@ -99,7 +104,7 @@ export class GeoLocationsController {
   @Post()
   @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file', { storage }), GeoJSONInterceptor)
-  @Label('geo-locations.create')
+  @RolePathLabel('geo-locations.create')
   async create(@UploadedFile() file: Express.Multer.File, @Req() req) {
     await this.geoLocationsService.saveMultipleData(req.geoLocationData);
     this.deletePhotos(file.path);
@@ -176,7 +181,7 @@ export class GeoLocationsController {
   })
   @Get()
   @UseGuards(AuthGuard)
-  @Label('geo-locations.list')
+  @RolePathLabel('geo-locations.list')
   async find(@Query() query: FindGeoLocationDto) {
     const data = await this.geoLocationsService.find(
       query.limit,

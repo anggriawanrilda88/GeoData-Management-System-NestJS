@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException, BadRequestException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthService } from '../services/auth.service';
-import { RolesService } from 'src/services/roles.service';
+import { RolesService } from '../../src/services/roles.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     canActivate(context: ExecutionContext): boolean {
         try {
             // get metadata label
-            const label = this.reflector.get<string[]>('label', context.getHandler());
+            const label = this.reflector.get<string[]>('rolePathLabel', context.getHandler());
 
             const request = context.switchToHttp().getRequest();
             const { authorization }: any = request.headers;

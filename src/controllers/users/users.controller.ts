@@ -10,13 +10,13 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 import { UsersService } from '../../services/users.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../../auth/auth.guard';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { FindUserDto } from './dto/find-user.dto';
 import { Users } from 'src/models/users.entity';
-import { Label } from 'src/auth/auth.decorator';
-import { AuthService } from 'src/services/auth.service';
+import { RolePathLabel } from '../../auth/auth.decorator';
+import { AuthService } from '../../services/auth.service';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiResponseProperty, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Users API')
@@ -138,7 +138,7 @@ export class UsersController {
   })
   @Get('list')
   @UseGuards(AuthGuard)
-  @Label('user.list')
+  @RolePathLabel('user.list')
   async find(@Query() query: FindUserDto) {
     const data = await this.usersService.find(
       query.limit,
@@ -212,7 +212,7 @@ export class UsersController {
   })
   @Get(':id')
   @UseGuards(AuthGuard)
-  @Label('user.detail')
+  @RolePathLabel('user.detail')
   async findOne(@Param('id') id: string) {
     const data = await this.usersService.findOne(Number(id));
 

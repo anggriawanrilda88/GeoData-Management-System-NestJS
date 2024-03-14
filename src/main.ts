@@ -16,8 +16,8 @@ async function bootstrap() {
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const config = new DocumentBuilder()
-    .setTitle('Bvharta Test API Documentation')
-    .setDescription('This is API documentation for Assessment on Bvharta')
+    .setTitle('Bvarta Test API Documentation')
+    .setDescription('This is API documentation for Assessment on Bvarta')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

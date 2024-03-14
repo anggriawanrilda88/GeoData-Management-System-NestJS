@@ -31,11 +31,16 @@ export class GeoJSONInterceptor implements NestInterceptor {
                 }
             }
 
+
+
             // Mengirimkan jsonData ke dalam method controller
             request.geoLocationData = jsonData;
 
             return next.handle();
         } catch (error) {
+            if (error.message.includes("in JSON at position")) {
+                throw new ForbiddenException('Please upload file with geojson format');
+            }
             throw new ForbiddenException(error);
         }
     }
