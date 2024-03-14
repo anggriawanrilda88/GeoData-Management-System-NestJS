@@ -13,7 +13,7 @@ GeoData Management System (NestJS) with function<br>
 # Quick Setup
 <ul>
     <li>Ensure you has create .env on this project. copy paste .env.example and fill all configuration parameter right.</li>
-    <li>Installation => `npm install`</li>
+    <li>Installation => <span style="color:blue">`npm install`</span></li>
     <li>Migration Up database => `npm run typeorm:up-migrations`</li>
     <li>Migration Down database => `npm run typeorm:down-migrations`</li>
     <li>Run development API with debug hot reload => `npm run start:dev`</li>
